@@ -1,0 +1,20 @@
+#!/bin/bash
+echo "begin download album - $@"
+
+curl -silent $@ |
+#download page
+
+grep _blank |
+#grab imgur image links
+
+#grab only the good links
+
+grep -o http://i\.imgur\.com/[a-zA-Z0-9]*\.[a-zA-Z]* > downloadlinks.temp
+#grab only actual links
+
+wget --quiet -i downloadlinks.temp
+#download links
+
+rm downloadlinks.temp
+
+echo "done download album - $@"

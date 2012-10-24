@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#this file simply takes arguements that are passed to it and outputs imgur imgage ids to file imgids.temp
+
+curl --silent imgur.com/a/$@ | grep data-index | sed -e 's/^[ \t]*//' | cut -c 16-20 >> imgids.temp

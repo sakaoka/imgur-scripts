@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#prepare the variables for the until loop
+echo > blank.temp
+imgids=$(cat imgids.temp)
+blank=$(cat blank.temp)
+#done preparing
+
+#print some helpful information
+echo "original imgids.temp"
+cat imgids.temp
+echo "done original imgids.temp"
+
+until [ "$imgids" = "$blank" ]
+
+do
+
+imgidsvar=$(cat imgids.temp | head -n 1)
+curl --silent http://imgur.com/$imgidsvar | grep image_src | grep -o http://i\.imgur\.com/[a-zA-Z0-9]*\.[a-zA-Z]* >> imgdl.temp
+
+imgidsvar=$(cat imgids.temp | tail -n +2)
+echo "$imgidsvar" > imgids.temp
+
+cat imgids.temp; echo "."
+
+imgids=$(cat imgids.temp)
+
+done
